@@ -27,5 +27,20 @@ class ListSpec extends FreeSpec with Matchers {
       List.setHead(List(1, 2, 3, 4), 0) shouldEqual List(0, 2, 3, 4)
       an[RuntimeException] should be thrownBy List.setHead(Nil, 0)
     }
+
+    "3.4" in {
+      List.drop(List(1, 2, 3, 4, 5), 0) shouldEqual List(1, 2, 3, 4, 5)
+      List.drop(List(1, 2, 3, 4, 5), 3) shouldEqual List(4, 5)
+    }
+
+    "3.5" in {
+      List.dropWhile[Int](List(2, 2, 3, 4, 5), 2 == _) shouldEqual List(3, 4, 5)
+      List.dropWhile[Int](List(1, 2, 3, 4, 5), 0 == _) shouldEqual List(1, 2, 3, 4, 5)
+    }
+
+    "3.6" in {
+      List.init(List(1, 2, 3, 4)) shouldEqual List(1, 2, 3)
+      List.init(List(1, 2, 3, 4, 5)) shouldEqual List(1, 2, 3, 4)
+    }
   }
 }
