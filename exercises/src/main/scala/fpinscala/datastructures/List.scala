@@ -66,8 +66,8 @@ object List { // `List` companion object. Contains functions for creating and wo
   def drop[A](l: List[A], n: Int): List[A] = if (n > 0) drop(tail(l), n - 1) else l
 
   @tailrec
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
-    case Cons(h, t) if f(h) => dropWhile(t, f)
+  def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = l match {
+    case Cons(h, t) if f(h) => dropWhile(t)(f)
     case _ => l
   }
 
@@ -77,9 +77,19 @@ object List { // `List` companion object. Contains functions for creating and wo
     case _ => sys.error("empty list cannot init")
   }
 
-  def length[A](l: List[A]): Int = ???
+  def length[A](l: List[A]): Int = foldRight(l, 0)((_, l) => l + 1)
 
-  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = ???
+  @tailrec
+  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = l match {
+    case Nil => z
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
+
+  def sum3(l: List[Int]): Int = foldLeft(l, 0)(_ + _)
+
+  def product3(l: List[Double]): Double = foldLeft(l, 1d)(_ * _)
+
+  def length2[A](l: List[A]): Int = foldLeft(l, 0)((n, _) => n + 1)
 
   def map[A,B](l: List[A])(f: A => B): List[B] = ???
 }
