@@ -58,5 +58,21 @@ class ListSpec extends FreeSpec with Matchers {
       List.product3(List(1,2,3,4,5)) shouldBe 120
       List.length2(List(1,2,3,4,5)) shouldBe 5
     }
+
+    "3.12" in {
+      List.reverse(List(1,2,3,4)) shouldBe List(4,3,2,1)
+    }
+
+    "3.13" in {
+      List.foldRight2(List(1,2,3,4), 10)(_ + _) shouldBe 20
+    }
+
+    "3.14" in {
+      List.append2(List(1,1,1), List(2,2,2)) shouldBe List(1,1,1,2,2,2)
+    }
+
+    "3.15" in {
+      List.flatten(List(List(1,2,3), List(4,5,6), List(7,8,9))) shouldBe List(1,2,3,4,5,6,7,8,9)
+    }
   }
 }
