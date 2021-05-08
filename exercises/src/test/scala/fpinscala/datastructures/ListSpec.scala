@@ -74,5 +74,37 @@ class ListSpec extends FreeSpec with Matchers {
     "3.15" in {
       List.flatten(List(List(1,2,3), List(4,5,6), List(7,8,9))) shouldBe List(1,2,3,4,5,6,7,8,9)
     }
+
+    "3.16" in {
+      List.add1(List(1,2,3)) shouldBe List(2,3,4)
+    }
+
+    "3.17" in {
+      List.doubleToString(List(1.0,2.0,3.0)) shouldBe List("1.0","2.0","3.0")
+    }
+
+    "3.18" in {
+      List.map(List(1,2,3))(_*2) shouldBe List(2,4,6)
+    }
+
+    "3.19" in {
+      List.filter(List(1,3,6,7,2,3))(_%2==0) shouldBe List(6,2)
+    }
+
+    "3.20" in {
+      List.flatMap(List(1,2,3))(i => List(i, i)) shouldBe List(1,1,2,2,3,3)
+    }
+
+    "3.21" in {
+      List.filter2(List(1,3,6,7,2,3))(_%2==0) shouldBe List(6,2)
+    }
+
+    "3.22" in {
+      List.add(List(1,2,3),List(4,5,6)) shouldBe List(5,7,9)
+    }
+
+    "3.23" in {
+      List.zipWith(List(1,2,3),List(4,5,6))(_+_) shouldBe List(5,7,9)
+    }
   }
 }

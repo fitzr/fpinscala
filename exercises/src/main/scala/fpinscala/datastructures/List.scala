@@ -101,5 +101,25 @@ object List { // `List` companion object. Contains functions for creating and wo
   def flatten[A](l: List[List[A]]): List[A] =
     foldRight(l, List[A]())(append)
 
-  def map[A,B](l: List[A])(f: A => B): List[B] = ???
+  def add1(l: List[Int]): List[Int] = foldRight2(l, List[Int]())((a, b) => Cons(a + 1, b))
+
+  def doubleToString(l: List[Double]): List[String] = foldRight2(l, List[String]())((a, b) => Cons(a.toString, b))
+
+  def map[A,B](l: List[A])(f: A => B): List[B] = foldRight2(l, List[B]())((h, t) => Cons(f(h), t))
+
+  def filter[A](l: List[A])(f: A => Boolean): List[A] = foldRight2(l, List[A]())((h, t) => if(f(h)) Cons(h, t) else t)
+
+  def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] = flatten(map(l)(f))
+
+  def filter2[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(a => if(f(a)) List(a) else Nil)
+
+  def add(l1:List[Int], l2:List[Int]): List[Int] = (l1, l2) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, add(t1, t2))
+    case _ => Nil
+  }
+
+  def zipWith[A,B,C](l1:List[A], l2:List[B])(f: (A,B) => C): List[C] = (l1, l2) match {
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1,h2), zipWith(t1, t2)(f))
+    case _ => Nil
+  }
 }
