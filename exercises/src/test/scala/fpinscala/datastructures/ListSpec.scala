@@ -106,5 +106,12 @@ class ListSpec extends FreeSpec with Matchers {
     "3.23" in {
       List.zipWith(List(1,2,3),List(4,5,6))(_+_) shouldBe List(5,7,9)
     }
+
+    "3.24" in {
+      List.hasSubsequence(List(1,2,3,4), List(1,2)) shouldBe true
+      List.hasSubsequence(List(1,2,3,4), List(3,4)) shouldBe true
+      List.hasSubsequence(List(1,2,3,4), List(1,1)) shouldBe false
+      List.hasSubsequence(List(1,2,3,4), List(2,3,5)) shouldBe false
+    }
   }
 }
