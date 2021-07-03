@@ -62,4 +62,43 @@ class StreamSpec extends FreeSpec with Matchers {
     taken.toList shouldBe List(1, 2)
   }
 
+  "5.4" - {
+    "false" in {
+      val s = cons(2, cons(1, cons({ print("laziness"); 2 }, Empty)))
+      s.forAll(_ == 2) shouldBe false
+    }
+
+    "true" in {
+      val s = cons(2, cons(2, cons({ print("laziness"); 2 }, Empty)))
+      s.forAll(_ == 2) shouldBe true
+    }
+  }
+
+  "5.5" in {
+    val taken = Stream(1, 2, 3, 4).takeWhile2(_ < 3)
+    taken.toList shouldBe List(1, 2)
+  }
+
+  "5.6" in {
+    Stream(1, 2, 3, 4).headOption shouldBe Some(1)
+    Empty.headOption shouldBe None
+  }
+
+  "5.7" - {
+    "map" in {
+      Stream(1, 2, 3, 4).map(_ * 2).toList shouldBe List(2, 4, 6, 8)
+    }
+
+    "filter" in {
+      Stream(3, 2, 1, 4).filter(_ < 3).toList shouldBe List(2, 1)
+    }
+
+    "append" in {
+      Stream(1, 2, 3, 4).append(Stream(5)).toList shouldBe List(1, 2, 3, 4, 5)
+    }
+
+    "flatMap" in {
+      Stream(1, 2, 3, 4).flatMap(a => Stream(a * 2)).toList shouldBe List(2, 4, 6, 8)
+    }
+  }
 }
