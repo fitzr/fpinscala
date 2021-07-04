@@ -101,4 +101,38 @@ class StreamSpec extends FreeSpec with Matchers {
       Stream(1, 2, 3, 4).flatMap(a => Stream(a * 2)).toList shouldBe List(2, 4, 6, 8)
     }
   }
+
+  "5.8" in {
+    Stream.constant(5).take(3).toList shouldBe List(5, 5, 5)
+  }
+
+  "5.9" in {
+    Stream.from(5).take(3).toList shouldBe List(5, 6, 7)
+  }
+
+  "5.10" in {
+    Stream.fibs.take(7).toList shouldBe List(0, 1, 1, 2, 3, 5, 8)
+  }
+
+  "5.11" in {
+    Stream.unfold[String, Int](2)(a => Some((a.toString, a * 3))).take(3).toList shouldBe List("2", "6", "18")
+  }
+
+  "5.12" - {
+    "fibs2" in {
+      Stream.fibs2.take(7).toList shouldBe List(0, 1, 1, 2, 3, 5, 8)
+    }
+
+    "from2" in {
+      Stream.from2(5).take(3).toList shouldBe List(5, 6, 7)
+    }
+
+    "constant2" in {
+      Stream.constant2(5).take(3).toList shouldBe List(5, 5, 5)
+    }
+
+    "ones2" in {
+      Stream.ones2.take(3).toList shouldBe List(1, 1, 1)
+    }
+  }
 }

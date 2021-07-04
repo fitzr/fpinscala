@@ -92,7 +92,31 @@ object Stream {
     else cons(as.head, apply(as.tail: _*))
 
   val ones: Stream[Int] = Stream.cons(1, ones)
-  def from(n: Int): Stream[Int] = ???
 
-  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = ???
+//  def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+
+  def constant[A](a: A): Stream[A] = {
+    lazy val x: Stream[A] = Cons(() => a, () => x)
+    x
+  }
+
+  def from(n: Int): Stream[Int] = cons(n, from(n + 1))
+
+  def fibs: Stream[Int] = {
+    def go(a: Int, b: Int): Stream[Int] = cons(a, go(b, a + b))
+    go(0, 1)
+  }
+
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+    case Some((a, s)) => cons(a, unfold(s)(f))
+    case _ => empty
+  }
+
+  def fibs2: Stream[Int] = unfold(0 -> 1)(a => Some(a._1, (a._2, a._1 + a._2)))
+
+  def from2(n: Int): Stream[Int] = unfold(n)(v => Some(v, v + 1))
+
+  def constant2[A](a: A): Stream[A] = unfold(a)(v => Some(v, v))
+
+  val ones2: Stream[Int] = constant2(1)
 }
