@@ -135,4 +135,34 @@ class StreamSpec extends FreeSpec with Matchers {
       Stream.ones2.take(3).toList shouldBe List(1, 1, 1)
     }
   }
+
+  "5.13" - {
+    "map2" in {
+      Stream(1, 2, 3, 4).map2(_ * 2).toList shouldBe List(2, 4, 6, 8)
+    }
+
+    "take2" in {
+      Stream(1, 2, 3, 4).take2(2).toList shouldBe List(1, 2)
+      Stream(1, 2, 3, 4).take2(5).toList shouldBe List(1, 2, 3, 4)
+    }
+
+    "takeWhile3" in {
+      Stream(1, 2, 3, 4).takeWhile3(_ < 3).toList shouldBe List(1, 2)
+    }
+
+    "zipWith" in {
+      Stream(1, 2, 3, 4).zipWith(Stream(2, 3, 4, 5))(_ + _).toList shouldBe List(3, 5, 7, 9)
+    }
+
+    "zipApp" in {
+      Stream(1, 2).zipAll(Stream(3, 4, 5, 6)).toList shouldBe
+        List((Some(1), Some(3)), (Some(2), Some(4)), (None, Some(5)), (None, Some(6)))
+    }
+  }
+
+  "5.14" in {
+    Stream(1,2,3).startsWith(Stream(1, 2)) shouldBe true
+    Stream(1,3,3).startsWith(Stream(1, 2)) shouldBe false
+    Stream(1,3,3).startsWith(Stream(1, 3, 3, 3)) shouldBe false
+  }
 }
