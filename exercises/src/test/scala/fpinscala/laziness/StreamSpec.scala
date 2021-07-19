@@ -165,4 +165,12 @@ class StreamSpec extends FreeSpec with Matchers {
     Stream(1,3,3).startsWith(Stream(1, 2)) shouldBe false
     Stream(1,3,3).startsWith(Stream(1, 3, 3, 3)) shouldBe false
   }
+
+  "5.15" in {
+    Stream(1,2,3).tails.map(_.toList).toList shouldBe List(List(1,2,3), List(2, 3), List(3), List())
+  }
+
+  "5.16" in {
+    Stream(1,2,3).scanRight(0)(_ + _).toList shouldBe List(6,5,3,0)
+  }
 }
